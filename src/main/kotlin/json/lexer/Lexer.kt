@@ -1,4 +1,4 @@
-package org.example
+package org.example.json.lexer
 
 class Lexer {
     private var line = 0
@@ -63,9 +63,10 @@ class Lexer {
                 }
             } else {
                 if (state == State.Space) {
-                    if (char == 't' || char == 'f') {
+                    val lowCaseChar = char.lowercaseChar()
+                    if (lowCaseChar == 't' || lowCaseChar == 'f') {
                         startBoolean(char)
-                    } else if (char == 'n') {
+                    } else if (lowCaseChar == 'n') {
                         startNull(char)
                     } else if (char.isDigit()) {
                         startNumber(char)
@@ -80,7 +81,8 @@ class Lexer {
                     } else {
                         throw IllegalStateException("Unexpected symbol at $line:$linePos")
                     }
-                } else {
+                } else { // boolean or null
+                    val allowedChars = "truefalsnl"
                     if (allowedChars.contains(char)) {
                         currentValue.append(char)
                     } else {
@@ -95,8 +97,6 @@ class Lexer {
 
         return result
     }
-
-    private val allowedChars = "truefalsenl"
 
     private fun space() {
         when(state) {
@@ -165,7 +165,7 @@ class Lexer {
 
     private fun parseString() {
         state = State.Space
-        val s = currentValue.toString().lowercase()
+        val s = currentValue.toString()
         result.add(
             Token.StringToken(s, line, startingPos)
         )

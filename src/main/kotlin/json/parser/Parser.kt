@@ -1,13 +1,17 @@
-package org.example
+package org.example.json.parser
 
-import org.example.JsonValue.*
+import org.example.json.lexer.Lexer
+import org.example.json.lexer.Token
+import org.example.json.JsonValue.*
+import org.example.json.JsonObject
+import org.example.json.JsonValue
 import java.lang.IllegalStateException
 
 class Parser {
-    val result = mutableMapOf<String, JsonValue>()
+    private val result = mutableMapOf<String, JsonValue>()
     private var state = State.Init
-    lateinit var iterator: ListIterator<Token>
-    lateinit var currentKey: Token.StringToken
+    private lateinit var iterator: ListIterator<Token>
+    private lateinit var currentKey: Token.StringToken
 
     fun parse(tokens: List<Token>): JsonObject {
         iterator = tokens.listIterator()
@@ -152,9 +156,3 @@ class Parser {
     }
 }
 
-fun JsonObject.Companion.fromString(json: String): JsonObject {
-    val lexer = Lexer()
-    val tokens = lexer.parse(json)
-    val parser = Parser()
-    return parser.parse(tokens)
-}

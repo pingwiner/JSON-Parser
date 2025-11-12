@@ -1,4 +1,4 @@
-package org.example
+package org.example.json.lexer
 
 sealed class Token(val line: Int, val pos: Int) {
     class LongToken(val value: Long, line: Int, pos: Int) : Token(line, pos) {
