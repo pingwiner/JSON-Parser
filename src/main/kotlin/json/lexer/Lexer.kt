@@ -21,7 +21,7 @@ class Lexer {
                 continue
             }
 
-            if (char.isWhitespace()) {
+            if (char.isWhitespace() && state != State.String) {
                 space()
             } else if (char == '{') {
                 space()

@@ -23,7 +23,7 @@ fun main() {
                     "field2": 2.0
                 }
                 ,{
-                    "field1" : "asdasd",
+                    "field1" : "asd Asd",
                     "field2" : null,
                 }
             ],
@@ -40,7 +40,9 @@ fun main() {
 
         assert(jsonObject.keys == listOf("width", "height", "alpha", "enabled", "active", "ints", "strings", "child", "objArray", "arrayOfArrays"))
         assert(jsonObject["width"].asInt() == 640)
+        assert(jsonObject["height"].isLong())
         assert(jsonObject["height"].asLong() == 480L)
+        assert(jsonObject["height"].asString() == null)
         assert(jsonObject["alpha"].asDouble() == 0.48)
         assert(jsonObject["enabled"].asBoolean() == true)
         assert(jsonObject["active"].asBoolean() == false)
@@ -48,8 +50,9 @@ fun main() {
         assert(jsonObject["strings"].asStringList() == listOf("abs", "cde"))
         assert(jsonObject["child"]["item"].asString() == "itemValue")
         assert(jsonObject["objArray"][0]["field1"].asInt() == 1)
+        assert(jsonObject["objArray"][1]["field1"].asString() == "asd Asd")
         assert(jsonObject["arrayOfArrays"][1][1].asString() == "b")
-        assert(jsonObject["arrayOfArrays"][2][2] is JsonValue.NullValue)
+        assert(jsonObject["arrayOfArrays"][2][2].isNull())
     } catch(e: Exception) {
         e.printStackTrace()
     }

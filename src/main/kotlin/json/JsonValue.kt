@@ -19,12 +19,19 @@ sealed class JsonValue {
 }
 
 fun JsonValue?.asLong(): Long? = (this as? LongValue)?.value
+fun JsonValue?.isLong(): Boolean = this is LongValue
 fun JsonValue?.asInt(): Int? = asLong()?.let { longToInt(it) }
+fun JsonValue?.isInt(): Boolean = asInt() != null
 fun JsonValue?.asDouble(): Double? = (this as? DoubleValue)?.value
+fun JsonValue?.isDouble(): Boolean = this is DoubleValue
 fun JsonValue?.asString(): String? = (this as? StringValue)?.value
+fun JsonValue?.isString(): Boolean = this is StringValue
 fun JsonValue?.asFloat(): Float? = asDouble()?.let { doubleToFloat(it) }
+fun JsonValue?.isFloat(): Boolean = asFloat() != null
 fun JsonValue?.asBoolean(): Boolean? = (this as? BooleanValue)?.value
+fun JsonValue?.isBoolean(): Boolean = this is BooleanValue
 fun JsonValue?.asList(): List<JsonValue>? = (this as? ArrayValue)?.value
+fun JsonValue?.isList(): Boolean = this is ArrayValue
 
 fun JsonValue?.asLongArray(): LongArray? {
     val list = asList() ?: return null
@@ -103,4 +110,5 @@ operator fun JsonValue?.get(key: String): JsonValue? {
 }
 
 fun JsonValue?.asObject(): JsonObject? = (this as? ObjectValue)?.value
+fun JsonValue?.isObject(): Boolean = this is ObjectValue
 fun JsonValue?.isNull(): Boolean = (this is NullValue)
